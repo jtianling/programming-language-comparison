@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编程语言语法对比</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Prism.js 语法高亮 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+    <header>
+        <h1>编程语言语法对比</h1>
+        <p>通过实例对比不同编程语言的语法差异</p>
+    </header>
+
+    <nav class="language-filter">
+        <h3>选择要对比的语言：</h3>
+        <div class="language-checkboxes">
+            <label><input type="checkbox" value="cpp" checked> C++</label>
+            <label><input type="checkbox" value="cpp20" checked> C++20</label>
+            <label><input type="checkbox" value="python" checked> Python</label>
+            <label><input type="checkbox" value="rust" checked> Rust</label>
+            <label><input type="checkbox" value="java" checked> Java</label>
+            <label><input type="checkbox" value="csharp" checked> C#</label>
+                <label><input type="checkbox" value="javascript" checked> JavaScript</label>
+                <label><input type="checkbox" value="typescript" checked> TypeScript</label>
+                <label><input type="checkbox" value="lua" checked> Lua</label>
+            </div>
+    </nav>
+
+    <main id="examples-container">
+        <!-- Examples will be dynamically inserted here -->
+    </main>
+
+    <footer>
+        <p>编程语言语法对比网站 - 帮助开发者快速了解不同语言的语法差异</p>
+    </footer>
+
+    <!-- Prism.js 核心库和语言支持 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-lua.min.js"></script>
+    
+    <script src="examples.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
