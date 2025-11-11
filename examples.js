@@ -183,5 +183,240 @@ end`
     print(i)
 end`
         }
+    },
+    {
+        title: "数组/列表",
+        description: "数组和列表的创建与操作",
+        codes: {
+            cpp: `#include <vector>
+
+std::vector<int> nums = {1, 2, 3};
+nums.push_back(4);
+int first = nums[0];
+int size = nums.size();`,
+            cpp20: `#include <vector>
+
+std::vector nums = {1, 2, 3};
+nums.push_back(4);
+auto first = nums[0];
+auto size = nums.size();`,
+            python: `nums = [1, 2, 3]
+nums.append(4)
+first = nums[0]
+size = len(nums)`,
+            rust: `let mut nums = vec![1, 2, 3];
+nums.push(4);
+let first = nums[0];
+let size = nums.len();`,
+            java: `ArrayList<Integer> nums = new ArrayList<>();
+nums.add(1);
+nums.add(2);
+int first = nums.get(0);`,
+            csharp: `List<int> nums = new List<int> {1, 2, 3};
+nums.Add(4);
+int first = nums[0];`,
+            javascript: `const nums = [1, 2, 3];
+nums.push(4);
+const first = nums[0];`,
+            typescript: `const nums: number[] = [1, 2, 3];
+nums.push(4);
+const first: number = nums[0];`,
+            lua: `local nums = {1, 2, 3}
+table.insert(nums, 4)
+local first = nums[1]`
+        }
+    },
+    {
+        title: "字典/映射",
+        description: "键值对数据结构",
+        codes: {
+            cpp: `#include <map>
+
+std::map<std::string, int> ages;
+ages["Alice"] = 25;
+ages["Bob"] = 30;
+int age = ages["Alice"];`,
+            cpp20: `#include <map>
+
+std::map ages = {
+    {"Alice", 25},
+    {"Bob", 30}
+};`,
+            python: `ages = {"Alice": 25, "Bob": 30}
+ages["Charlie"] = 35
+age = ages["Alice"]`,
+            rust: `use std::collections::HashMap;
+
+let mut ages = HashMap::new();
+ages.insert("Alice", 25);
+ages.insert("Bob", 30);`,
+            java: `HashMap<String, Integer> ages = new HashMap<>();
+ages.put("Alice", 25);
+ages.put("Bob", 30);`,
+            csharp: `Dictionary<string, int> ages = new Dictionary<string, int>();
+ages["Alice"] = 25;
+ages["Bob"] = 30;`,
+            javascript: `const ages = new Map();
+ages.set("Alice", 25);
+ages.set("Bob", 30);`,
+            typescript: `const ages = new Map<string, number>();
+ages.set("Alice", 25);
+ages.set("Bob", 30);`,
+            lua: `local ages = {
+    Alice = 25,
+    Bob = 30
+}`
+        }
+    },
+    {
+        title: "错误处理",
+        description: "异常捕获和错误处理",
+        codes: {
+            cpp: `#include <stdexcept>
+
+try {
+    throw std::runtime_error("错误");
+} catch (const std::exception& e) {
+    std::cerr << e.what();
+}`,
+            cpp20: `#include <stdexcept>
+
+try {
+    throw std::runtime_error("错误");
+} catch (const std::exception& e) {
+    std::println(stderr, "{}", e.what());
+}`,
+            python: `try:
+    raise ValueError("错误")
+except ValueError as e:
+    print(f"捕获: {e}")`,
+            rust: `fn divide(a: i32, b: i32) -> Result<i32, String> {
+    if b == 0 {
+        Err("除数为零".to_string())
+    } else {
+        Ok(a / b)
+    }
+}`,
+            java: `try {
+    throw new Exception("错误");
+} catch (Exception e) {
+    System.err.println(e.getMessage());
+}`,
+            csharp: `try {
+    throw new Exception("错误");
+} catch (Exception e) {
+    Console.Error.WriteLine(e.Message);
+}`,
+            javascript: `try {
+    throw new Error("错误");
+} catch (error) {
+    console.error(error.message);
+}`,
+            typescript: `try {
+    throw new Error("错误");
+} catch (error) {
+    console.error((error as Error).message);
+}`,
+            lua: `local status, err = pcall(function()
+    error("错误")
+end)
+if not status then
+    print("捕获: " .. err)
+end`
+        }
+    },
+    {
+        title: "异步编程",
+        description: "异步操作和并发",
+        codes: {
+            cpp: `#include <future>
+
+auto future = std::async([]() {
+    return 42;
+});
+int result = future.get();`,
+            cpp20: `#include <future>
+
+auto future = std::async([]() {
+    return 42;
+});
+auto result = future.get();`,
+            python: `import asyncio
+
+async def fetch():
+    await asyncio.sleep(1)
+    return "数据"
+
+asyncio.run(fetch())`,
+            rust: `async fn fetch() -> String {
+    "数据".to_string()
+}
+
+// 需要 tokio 运行时
+// let result = fetch().await;`,
+            java: `CompletableFuture<String> future = 
+    CompletableFuture.supplyAsync(() -> "数据");
+future.thenAccept(System.out::println);`,
+            csharp: `async Task<string> FetchAsync() {
+    await Task.Delay(1000);
+    return "数据";
+}`,
+            javascript: `async function fetch() {
+    await new Promise(r => setTimeout(r, 1000));
+    return "数据";
+}`,
+            typescript: `async function fetch(): Promise<string> {
+    await new Promise(r => setTimeout(r, 1000));
+    return "数据";
+}`,
+            lua: `-- Lua 没有原生异步支持
+-- 通常使用协程
+local co = coroutine.create(function()
+    print("异步任务")
+end)
+coroutine.resume(co)`
+        }
+    },
+    {
+        title: "内存管理",
+        description: "内存分配和管理",
+        codes: {
+            cpp: `// 智能指针
+#include <memory>
+
+auto ptr = std::make_unique<int>(42);
+auto shared = std::make_shared<int>(100);`,
+            cpp20: `// 智能指针
+#include <memory>
+
+auto ptr = std::make_unique<int>(42);
+auto shared = std::make_shared<int>(100);`,
+            python: `# Python 自动垃圾回收
+# 使用 del 删除引用
+obj = [1, 2, 3]
+del obj`,
+            rust: `// Rust 所有权系统
+let s1 = String::from("hello");
+let s2 = s1; // s1 移动到 s2
+// s1 不再有效`,
+            java: `// Java 自动垃圾回收
+Object obj = new Object();
+obj = null; // 标记为可回收`,
+            csharp: `// C# 自动垃圾回收
+// using 语句自动释放
+using (var file = File.Open("test.txt")) {
+    // 使用文件
+}`,
+            javascript: `// JavaScript 自动垃圾回收
+let obj = {data: "test"};
+obj = null; // 标记为可回收`,
+            typescript: `// TypeScript 自动垃圾回收
+let obj: object | null = {data: "test"};
+obj = null; // 标记为可回收`,
+            lua: `-- Lua 自动垃圾回收
+local obj = {data = "test"}
+obj = nil -- 标记为可回收
+collectgarbage() -- 手动触发GC`
+        }
     }
 ];
