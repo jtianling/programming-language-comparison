@@ -185,6 +185,237 @@ end`
         }
     },
     {
+        title: "类和对象",
+        description: "面向对象编程 - 类的定义",
+        codes: {
+            cpp: `class Person {
+private:
+    std::string name;
+    int age;
+public:
+    Person(std::string n, int a) : name(n), age(a) {}
+    void greet() {
+        std::cout << "Hello, " << name;
+    }
+};`,
+            cpp20: `class Person {
+private:
+    std::string name;
+    int age;
+public:
+    Person(std::string n, int a) : name(n), age(a) {}
+    void greet() {
+        std::println("Hello, {}", name);
+    }
+};`,
+            python: `class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def greet(self):
+        print(f"Hello, {self.name}")`,
+            rust: `struct Person {
+    name: String,
+    age: i32,
+}
+
+impl Person {
+    fn new(name: String, age: i32) -> Self {
+        Person { name, age }
+    }
+    
+    fn greet(&self) {
+        println!("Hello, {}", self.name);
+    }
+}`,
+            java: `public class Person {
+    private String name;
+    private int age;
+    
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public void greet() {
+        System.out.println("Hello, " + name);
+    }
+}`,
+            csharp: `public class Person {
+    private string name;
+    private int age;
+    
+    public Person(string name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public void Greet() {
+        Console.WriteLine($"Hello, {name}");
+    }
+}`,
+            javascript: `class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    greet() {
+        console.log(\`Hello, \${this.name}\`);
+    }
+}`,
+            typescript: `class Person {
+    private name: string;
+    private age: number;
+    
+    constructor(name: string, age: number) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    greet(): void {
+        console.log(\`Hello, \${this.name}\`);
+    }
+}`,
+            lua: `-- Lua 使用表模拟类
+Person = {}
+Person.__index = Person
+
+function Person:new(name, age)
+    local obj = {name = name, age = age}
+    setmetatable(obj, Person)
+    return obj
+end
+
+function Person:greet()
+    print("Hello, " .. self.name)
+end`
+        }
+    },
+    {
+        title: "继承",
+        description: "类的继承和多态",
+        codes: {
+            cpp: `class Animal {
+public:
+    virtual void speak() {
+        std::cout << "Some sound";
+    }
+};
+
+class Dog : public Animal {
+public:
+    void speak() override {
+        std::cout << "Woof!";
+    }
+};`,
+            cpp20: `class Animal {
+public:
+    virtual void speak() {
+        std::println("Some sound");
+    }
+};
+
+class Dog : public Animal {
+public:
+    void speak() override {
+        std::println("Woof!");
+    }
+};`,
+            python: `class Animal:
+    def speak(self):
+        print("Some sound")
+
+class Dog(Animal):
+    def speak(self):
+        print("Woof!")`,
+            rust: `// Rust 使用 trait 实现多态
+trait Animal {
+    fn speak(&self);
+}
+
+struct Dog;
+
+impl Animal for Dog {
+    fn speak(&self) {
+        println!("Woof!");
+    }
+}`,
+            java: `class Animal {
+    public void speak() {
+        System.out.println("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    public void speak() {
+        System.out.println("Woof!");
+    }
+}`,
+            csharp: `class Animal {
+    public virtual void Speak() {
+        Console.WriteLine("Some sound");
+    }
+}
+
+class Dog : Animal {
+    public override void Speak() {
+        Console.WriteLine("Woof!");
+    }
+}`,
+            javascript: `class Animal {
+    speak() {
+        console.log("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    speak() {
+        console.log("Woof!");
+    }
+}`,
+            typescript: `class Animal {
+    speak(): void {
+        console.log("Some sound");
+    }
+}
+
+class Dog extends Animal {
+    speak(): void {
+        console.log("Woof!");
+    }
+}`,
+            lua: `-- Lua 继承通过元表实现
+Animal = {}
+Animal.__index = Animal
+
+function Animal:new()
+    local obj = {}
+    setmetatable(obj, Animal)
+    return obj
+end
+
+function Animal:speak()
+    print("Some sound")
+end
+
+Dog = setmetatable({}, {__index = Animal})
+Dog.__index = Dog
+
+function Dog:new()
+    local obj = Animal:new()
+    setmetatable(obj, Dog)
+    return obj
+end
+
+function Dog:speak()
+    print("Woof!")
+end`
+        }
+    },
+    {
         title: "数组/列表",
         description: "数组和列表的创建与操作",
         codes: {
