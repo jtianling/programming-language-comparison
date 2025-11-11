@@ -46,9 +46,14 @@ class Program {
 double price = 19.99;
 std::string name = "Alice";
 auto count = 10;`,
-            cpp20: `int age = 25;
-std::string name = "Alice";
-auto count = 10;`,
+            cpp20: `// C++20 使用 auto 和指定初始化器
+auto age = 25;
+auto price = 19.99;
+auto name = std::string("Alice");
+
+// C++20 指定初始化器
+struct Point { int x; int y; };
+Point p{.x = 10, .y = 20};`,
             python: `age = 25
 price = 19.99
 name = "Alice"`,
@@ -77,8 +82,17 @@ local name = "Alice"`
             cpp: `int add(int a, int b) {
     return a + b;
 }`,
-            cpp20: `auto add(auto a, auto b) {
+            cpp20: `// C++20 简化函数模板语法
+auto add(auto a, auto b) {
     return a + b;
+}
+
+// 或使用 Concepts
+template<typename T>
+concept Numeric = std::is_arithmetic_v<T>;
+
+auto multiply(Numeric auto a, Numeric auto b) {
+    return a * b;
 }`,
             python: `def add(a, b):
     return a + b`,
@@ -426,11 +440,14 @@ nums.push_back(4);
 int first = nums[0];
 int size = nums.size();`,
             cpp20: `#include <vector>
+#include <ranges>
 
+// C++20 CTAD (类模板参数推导)
 std::vector nums = {1, 2, 3};
 nums.push_back(4);
-auto first = nums[0];
-auto size = nums.size();`,
+
+// C++20 Ranges
+auto doubled = nums | std::views::transform([](int n) { return n * 2; });`,
             python: `nums = [1, 2, 3]
 nums.append(4)
 first = nums[0]
