@@ -668,3 +668,8 @@ collectgarbage() -- 手动触发GC`
         }
     }
 ];
+
+// Node.js 环境下导出
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = examples;
+}

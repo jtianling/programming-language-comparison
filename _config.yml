@@ -1,0 +1,92 @@
+# Jekyll 配置文件
+title: 编程语言语法对比
+description: 通过实例对比不同编程语言的语法差异
+baseurl: "" # 如果部署到子路径，在这里设置
+url: "" # 站点 URL
+
+# 构建设置
+markdown: kramdown
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# 语言配置
+languages:
+  cpp:
+    name: C++
+    extension: cpp
+    prism: cpp
+  cpp20:
+    name: C++20
+    extension: cpp
+    prism: cpp
+  python:
+    name: Python
+    extension: py
+    prism: python
+  rust:
+    name: Rust
+    extension: rs
+    prism: rust
+  java:
+    name: Java
+    extension: java
+    prism: java
+  csharp:
+    name: C#
+    extension: cs
+    prism: csharp
+  javascript:
+    name: JavaScript
+    extension: js
+    prism: javascript
+  typescript:
+    name: TypeScript
+    extension: ts
+    prism: typescript
+  lua:
+    name: Lua
+    extension: lua
+    prism: lua
+
+# 示例配置
+examples:
+  - id: hello-world
+    title: Hello World
+    description: 最基本的程序 - 输出 Hello World
+  - id: variables
+    title: 变量声明
+    description: 声明和初始化变量
+  - id: functions
+    title: 函数定义
+    description: 定义和调用函数
+  - id: conditionals
+    title: 条件语句
+    description: if-else 条件判断
+  - id: loops
+    title: 循环
+    description: for 和 while 循环
+  - id: classes
+    title: 类和对象
+    description: 面向对象编程 - 类的定义
+  - id: inheritance
+    title: 继承
+    description: 类的继承和多态
+  - id: arrays
+    title: 数组/列表
+    description: 数组和列表的创建与操作
+  - id: maps
+    title: 字典/映射
+    description: 键值对数据结构
+  - id: error-handling
+    title: 错误处理
+    description: 异常捕获和错误处理
+  - id: async
+    title: 异步编程
+    description: 异步操作和并发
+  - id: memory
+    title: 内存管理
+    description: 内存分配和管理

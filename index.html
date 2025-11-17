@@ -15,18 +15,10 @@
     </header>
 
     <nav class="language-filter">
-        <h3>选择要对比的语言：</h3>
-        <div class="language-checkboxes">
-            <label><input type="checkbox" value="cpp" checked> C++</label>
-            <label><input type="checkbox" value="cpp20" checked> C++20</label>
-            <label><input type="checkbox" value="python" checked> Python</label>
-            <label><input type="checkbox" value="rust" checked> Rust</label>
-            <label><input type="checkbox" value="java" checked> Java</label>
-            <label><input type="checkbox" value="csharp" checked> C#</label>
-                <label><input type="checkbox" value="javascript" checked> JavaScript</label>
-                <label><input type="checkbox" value="typescript" checked> TypeScript</label>
-                <label><input type="checkbox" value="lua" checked> Lua</label>
-            </div>
+        <h3>选择要对比的语言：<span class="hint">（拖动调整顺序）</span></h3>
+        <div class="language-checkboxes" id="language-checkboxes">
+            <!-- 语言按钮将由 JavaScript 动态生成 -->
+        </div>
     </nav>
 
     <main id="examples-container">

@@ -1,0 +1,21 @@
+{
+  "name": "programming-language-comparison",
+  "version": "2.0.0",
+  "description": "编程语言语法对比网站 - 通过实例对比不同编程语言的语法差异",
+  "scripts": {
+    "build": "node build.js",
+    "generate-examples": "node generate-examples.js",
+    "dev": "node build.js && open _site/index.html"
+  },
+  "keywords": [
+    "programming",
+    "language",
+    "comparison",
+    "syntax"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

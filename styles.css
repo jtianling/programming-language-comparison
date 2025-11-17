@@ -43,27 +43,74 @@ header p {
     color: #667eea;
 }
 
+.language-filter h3 .hint {
+    font-size: 0.85rem;
+    color: #999;
+    font-weight: normal;
+    margin-left: 0.5rem;
+}
+
 .language-checkboxes {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 0.8rem;
 }
 
-.language-checkboxes label {
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    background: #f0f0f0;
-    border-radius: 4px;
+/* 语言按钮项（可拖拽） */
+.language-item {
+    cursor: move;
+    padding: 0.75rem 1.5rem;
+    background: #ccc;
+    color: #666;
+    border-radius: 12px;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    user-select: none;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.language-checkboxes label:hover {
-    background: #e0e0e0;
+/* 选中状态 */
+.language-item.selected {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.language-checkboxes input[type="checkbox"] {
-    margin-right: 0.5rem;
-    cursor: pointer;
+.language-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
+.language-item.selected:hover {
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* 语言名称 */
+.language-name {
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* 正在拖拽的元素 */
+.language-item.dragging {
+    opacity: 0.6;
+    transform: scale(0.95) rotate(2deg);
+    cursor: grabbing;
+}
+
+/* 拖拽目标元素 */
+.language-item.drag-over {
+    transform: scale(1.08);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
+}
+
+.language-item.selected.drag-over {
+    box-shadow: 0 8px 28px rgba(102, 126, 234, 0.7);
 }
 
 main {
@@ -98,7 +145,7 @@ main {
 
 .code-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 1px;
     background: #e0e0e0;
 }
@@ -106,6 +153,7 @@ main {
 .code-block {
     background: white;
     padding: 1.5rem;
+    min-width: 0;  /* 允许子元素缩小 */
 }
 
 .code-block.hidden {
@@ -138,16 +186,19 @@ pre {
     overflow-x: auto;
     border-left: 3px solid #667eea;
     margin: 0;
+    white-space: pre;       /* 代码不换行 */
 }
 
 pre[class*="language-"] {
     background: #2d2d2d !important;
+    overflow-x: auto !important;
 }
 
 code {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
     font-size: 0.9rem;
     line-height: 1.5;
+    white-space: pre;       /* 代码不换行 */
 }
 
 code[class*="language-"] {
