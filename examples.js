@@ -35,7 +35,24 @@ class Program {
 }`,
             javascript: `console.log("Hello World");`,
             typescript: `console.log("Hello World");`,
-            lua: `print("Hello World")`
+            lua: `print("Hello World")`,
+            ruby: `puts "Hello World"`,
+            swift: `print("Hello World")`,
+            objectivec: `#import <Foundation/Foundation.h>
+
+int main() {
+    @autoreleasepool {
+        NSLog(@"Hello World");
+    }
+    return 0;
+}`,
+            go: `package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello World")
+}`
         }
     },
     {
@@ -72,7 +89,19 @@ const name = "Alice";`,
 const name: string = "Alice";`,
             lua: `local age = 25
 local price = 19.99
-local name = "Alice"`
+local name = "Alice"`,
+            ruby: `age = 25
+price = 19.99
+name = "Alice"`,
+            swift: `var age = 25
+let price = 19.99
+let name = "Alice"`,
+            objectivec: `int age = 25;
+double price = 19.99;
+NSString *name = @"Alice";`,
+            go: `age := 25
+price := 19.99
+name := "Alice"`
         }
     },
     {
@@ -113,7 +142,19 @@ auto multiply(Numeric auto a, Numeric auto b) {
 }`,
             lua: `function add(a, b)
     return a + b
-end`
+end`,
+            ruby: `def add(a, b)
+  a + b
+end`,
+            swift: `func add(_ a: Int, _ b: Int) -> Int {
+    return a + b
+}`,
+            objectivec: `- (int)add:(int)a with:(int)b {
+    return a + b;
+}`,
+            go: `func add(a int, b int) int {
+    return a + b
+}`
         }
     },
     {
@@ -163,7 +204,27 @@ elif score >= 60:
     print("优秀")
 elseif score >= 60 then
     print("及格")
-end`
+end`,
+            ruby: `if score >= 90
+  puts "优秀"
+elsif score >= 60
+  puts "及格"
+end`,
+            swift: `if score >= 90 {
+    print("优秀")
+} else if score >= 60 {
+    print("及格")
+}`,
+            objectivec: `if (score >= 90) {
+    NSLog(@"优秀");
+} else if (score >= 60) {
+    NSLog(@"及格");
+}`,
+            go: `if score >= 90 {
+    fmt.Println("优秀")
+} else if score >= 60 {
+    fmt.Println("及格")
+}`
         }
     },
     {
@@ -195,7 +256,19 @@ end`
 }`,
             lua: `for i = 0, 4 do
     print(i)
-end`
+end`,
+            ruby: `(0...5).each do |i|
+  puts i
+end`,
+            swift: `for i in 0..<5 {
+    print(i)
+}`,
+            objectivec: `for (int i = 0; i < 5; i++) {
+    NSLog(@"%d", i);
+}`,
+            go: `for i := 0; i < 5; i++ {
+    fmt.Println(i)
+}`
         }
     },
     {
@@ -304,7 +377,61 @@ end
 
 function Person:greet()
     print("Hello, " .. self.name)
-end`
+end`,
+            ruby: `class Person
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+  
+  def greet
+    puts "Hello, #{@name}"
+  end
+end`,
+            swift: `class Person {
+    private var name: String
+    private var age: Int
+    
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+    
+    func greet() {
+        print("Hello, \\(name)")
+    }
+}`,
+            objectivec: `@interface Person : NSObject
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) int age;
+- (instancetype)initWithName:(NSString *)name age:(int)age;
+- (void)greet;
+@end
+
+@implementation Person
+- (instancetype)initWithName:(NSString *)name age:(int)age {
+    if (self = [super init]) {
+        _name = name;
+        _age = age;
+    }
+    return self;
+}
+- (void)greet {
+    NSLog(@"Hello, %@", self.name);
+}
+@end`,
+            go: `type Person struct {
+    name string
+    age  int
+}
+
+func NewPerson(name string, age int) *Person {
+    return &Person{name: name, age: age}
+}
+
+func (p *Person) Greet() {
+    fmt.Printf("Hello, %s\\n", p.name)
+}`
         }
     },
     {
@@ -426,7 +553,57 @@ end
 
 function Dog:speak()
     print("Woof!")
-end`
+end`,
+            ruby: `class Animal
+  def speak
+    puts "Some sound"
+  end
+end
+
+class Dog < Animal
+  def speak
+    puts "Woof!"
+  end
+end`,
+            swift: `class Animal {
+    func speak() {
+        print("Some sound")
+    }
+}
+
+class Dog: Animal {
+    override func speak() {
+        print("Woof!")
+    }
+}`,
+            objectivec: `@interface Animal : NSObject
+- (void)speak;
+@end
+
+@implementation Animal
+- (void)speak {
+    NSLog(@"Some sound");
+}
+@end
+
+@interface Dog : Animal
+@end
+
+@implementation Dog
+- (void)speak {
+    NSLog(@"Woof!");
+}
+@end`,
+            go: `// Go 使用接口实现多态
+type Animal interface {
+    Speak()
+}
+
+type Dog struct{}
+
+func (d Dog) Speak() {
+    fmt.Println("Woof!")
+}`
         }
     },
     {
@@ -471,7 +648,19 @@ nums.push(4);
 const first: number = nums[0];`,
             lua: `local nums = {1, 2, 3}
 table.insert(nums, 4)
-local first = nums[1]`
+local first = nums[1]`,
+            ruby: `nums = [1, 2, 3]
+nums.push(4)
+first = nums[0]`,
+            swift: `var nums = [1, 2, 3]
+nums.append(4)
+let first = nums[0]`,
+            objectivec: `NSMutableArray *nums = [@[@1, @2, @3] mutableCopy];
+[nums addObject:@4];
+NSNumber *first = nums[0];`,
+            go: `nums := []int{1, 2, 3}
+nums = append(nums, 4)
+first := nums[0]`
         }
     },
     {
@@ -513,7 +702,22 @@ ages.set("Bob", 30);`,
             lua: `local ages = {
     Alice = 25,
     Bob = 30
-}`
+}`,
+            ruby: `ages = {"Alice" => 25, "Bob" => 30}
+ages["Charlie"] = 35
+age = ages["Alice"]`,
+            swift: `var ages = ["Alice": 25, "Bob": 30]
+ages["Charlie"] = 35
+let age = ages["Alice"]`,
+            objectivec: `NSMutableDictionary *ages = [@{@"Alice": @25, @"Bob": @30} mutableCopy];
+ages[@"Charlie"] = @35;
+NSNumber *age = ages[@"Alice"];`,
+            go: `ages := map[string]int{
+    "Alice": 25,
+    "Bob":   30,
+}
+ages["Charlie"] = 35
+age := ages["Alice"]`
         }
     },
     {
@@ -570,7 +774,28 @@ except ValueError as e:
 end)
 if not status then
     print("捕获: " .. err)
-end`
+end`,
+            ruby: `begin
+  raise StandardError, "错误"
+rescue StandardError => e
+  puts "捕获: #{e.message}"
+end`,
+            swift: `do {
+    throw NSError(domain: "error", code: 0)
+} catch {
+    print("捕获: \\(error)")
+}`,
+            objectivec: `@try {
+    @throw [NSException exceptionWithName:@"Error" reason:@"错误" userInfo:nil];
+} @catch (NSException *exception) {
+    NSLog(@"捕获: %@", exception.reason);
+}`,
+            go: `func divide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, errors.New("除数为零")
+    }
+    return a / b, nil
+}`
         }
     },
     {
@@ -622,7 +847,29 @@ future.thenAccept(System.out::println);`,
 local co = coroutine.create(function()
     print("异步任务")
 end)
-coroutine.resume(co)`
+coroutine.resume(co)`,
+            ruby: `# Ruby 使用 Fiber 或第三方库
+require 'async'
+
+Async do
+  sleep 1
+  "数据"
+end`,
+            swift: `func fetch() async -> String {
+    try? await Task.sleep(nanoseconds: 1_000_000_000)
+    return "数据"
+}
+
+// 使用: await fetch()`,
+            objectivec: `dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    NSLog(@"异步任务");
+});`,
+            go: `func fetch() string {
+    time.Sleep(1 * time.Second)
+    return "数据"
+}
+
+// 并发: go fetch()`
         }
     },
     {
@@ -664,7 +911,28 @@ obj = null; // 标记为可回收`,
             lua: `-- Lua 自动垃圾回收
 local obj = {data = "test"}
 obj = nil -- 标记为可回收
-collectgarbage() -- 手动触发GC`
+collectgarbage() -- 手动触发GC`,
+            ruby: `# Ruby 自动垃圾回收
+obj = [1, 2, 3]
+obj = nil
+GC.start # 手动触发GC`,
+            swift: `// Swift 使用 ARC 自动引用计数
+class MyClass {
+    deinit {
+        print("释放资源")
+    }
+}
+var obj: MyClass? = MyClass()
+obj = nil // 自动释放`,
+            objectivec: `// Objective-C 使用 ARC
+@autoreleasepool {
+    NSObject *obj = [[NSObject alloc] init];
+    obj = nil; // 自动释放
+}`,
+            go: `// Go 自动垃圾回收
+obj := make([]int, 3)
+obj = nil // 标记为可回收
+runtime.GC() // 手动触发GC`
         }
     }
 ];

@@ -51,6 +51,22 @@ languages:
     name: Lua
     extension: lua
     prism: lua
+  ruby:
+    name: Ruby
+    extension: rb
+    prism: ruby
+  swift:
+    name: Swift
+    extension: swift
+    prism: swift
+  objectivec:
+    name: Objective-C
+    extension: m
+    prism: objectivec
+  go:
+    name: Go
+    extension: go
+    prism: go
 
 # 示例配置
 examples:

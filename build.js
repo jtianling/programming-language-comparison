@@ -35,14 +35,9 @@ config.examples.forEach(example => {
 
 // 生成 HTML 内容
 let htmlContent = '<nav class="language-filter">\n';
-htmlContent += '    <h3>选择要对比的语言：</h3>\n';
-htmlContent += '    <div class="language-checkboxes">\n';
-
-Object.keys(config.languages).forEach(langKey => {
-    const langConfig = config.languages[langKey];
-    htmlContent += `        <label><input type="checkbox" value="${langKey}" checked> ${langConfig.name}</label>\n`;
-});
-
+htmlContent += '    <h3>选择要对比的语言：<span class="hint">（拖动调整顺序）</span></h3>\n';
+htmlContent += '    <div class="language-checkboxes" id="language-checkboxes">\n';
+htmlContent += '        <!-- 语言按钮将由 JavaScript 动态生成 -->\n';
 htmlContent += '    </div>\n';
 htmlContent += '</nav>\n\n';
 htmlContent += '<main id="examples-container">\n';

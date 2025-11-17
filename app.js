@@ -8,7 +8,11 @@ const languageNames = {
     csharp: 'C#',
     javascript: 'JavaScript',
     typescript: 'TypeScript',
-    lua: 'Lua'
+    lua: 'Lua',
+    ruby: 'Ruby',
+    swift: 'Swift',
+    objectivec: 'Objective-C',
+    go: 'Go'
 };
 
 // Prism.js 语言映射
@@ -21,7 +25,11 @@ const prismLanguages = {
     csharp: 'csharp',
     javascript: 'javascript',
     typescript: 'typescript',
-    lua: 'lua'
+    lua: 'lua',
+    ruby: 'ruby',
+    swift: 'swift',
+    objectivec: 'objectivec',
+    go: 'go'
 };
 
 // 语言顺序数组（可拖拽排序）
@@ -39,7 +47,7 @@ function initializeLanguageOrder() {
         languageOrder = JSON.parse(savedOrder);
     } else {
         // 默认顺序
-        languageOrder = ['cpp', 'cpp20', 'python', 'rust', 'java', 'csharp', 'javascript', 'typescript', 'lua'];
+        languageOrder = ['cpp', 'cpp20', 'python', 'rust', 'java', 'csharp', 'javascript', 'typescript', 'lua', 'ruby', 'swift', 'objectivec', 'go'];
     }
     
     if (savedSelected) {
@@ -61,7 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeLanguageOrder();
     renderLanguageCheckboxes();
     setupLanguageFilters();
-    renderExamples();
+    
+    // 只有在 examples 变量存在时才渲染（独立版本）
+    // Jekyll 构建版本已经在 HTML 中包含了代码块
+    if (typeof examples !== 'undefined') {
+        renderExamples();
+    } else {
+        // Jekyll 版本：只需要更新可见性
+        updateVisibleLanguages();
+    }
 });
 
 // 渲染语言复选框
@@ -163,7 +179,14 @@ function handleDrop(e) {
         // 重新渲染
         renderLanguageCheckboxes();
         setupLanguageFilters();
-        renderExamples();
+        
+        // 只有在 examples 变量存在时才重新渲染（独立版本）
+        if (typeof examples !== 'undefined') {
+            renderExamples();
+        } else {
+            // Jekyll 版本：只需要更新可见性
+            updateVisibleLanguages();
+        }
     }
     
     return false;
