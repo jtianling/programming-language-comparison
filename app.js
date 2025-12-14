@@ -1,42 +1,11 @@
-// 语言配置
-const languageNames = {
-    cpp: 'C++',
-    cpp20: 'C++20',
-    python: 'Python',
-    rust: 'Rust',
-    java: 'Java',
-    csharp: 'C#',
-    javascript: 'JavaScript',
-    typescript: 'TypeScript',
-    lua: 'Lua',
-    ruby: 'Ruby',
-    swift: 'Swift',
-    objectivec: 'Objective-C',
-    go: 'Go'
-};
-
-// Prism.js 语言映射
-const prismLanguages = {
-    cpp: 'cpp',
-    cpp20: 'cpp',  // C++20 也使用 cpp 高亮
-    python: 'python',
-    rust: 'rust',
-    java: 'java',
-    csharp: 'csharp',
-    javascript: 'javascript',
-    typescript: 'typescript',
-    lua: 'lua',
-    ruby: 'ruby',
-    swift: 'swift',
-    objectivec: 'objectivec',
-    go: 'go'
-};
-
 // 语言顺序数组（可拖拽排序）
 let languageOrder = [];
 
 // 当前选中的语言
 let selectedLanguages = new Set();
+
+// 示例数据缓存
+let examplesData = {};
 
 // 从 localStorage 加载或初始化语言顺序
 function initializeLanguageOrder() {
@@ -47,7 +16,7 @@ function initializeLanguageOrder() {
         languageOrder = JSON.parse(savedOrder);
     } else {
         // 默认顺序
-        languageOrder = ['cpp', 'cpp20', 'python', 'rust', 'java', 'csharp', 'javascript', 'typescript', 'lua', 'ruby', 'swift', 'objectivec', 'go'];
+        languageOrder = Object.keys(languagesConfig);
     }
     
     if (savedSelected) {
@@ -64,20 +33,60 @@ function saveLanguagePreferences() {
     localStorage.setItem('selectedLanguages', JSON.stringify(Array.from(selectedLanguages)));
 }
 
+// 加载示例代码文件
+async function loadExampleCode(lang, exampleId) {
+    const langConfig = languagesConfig[lang];
+    if (!langConfig) return null;
+    
+    const url = `_examples/${lang}/${exampleId}.${langConfig.ext}`;
+    try {
+        const response = await fetch(url);
+        if (response.ok) {
+            return await response.text();
+        }
+    } catch (error) {
+        console.warn(`无法加载: ${url}`);
+    }
+    return null;
+}
+
+// 加载所有示例数据
+async function loadAllExamples() {
+    const loadingPromises = [];
+    
+    for (const example of examplesConfig) {
+        examplesData[example.id] = {
+            ...example,
+            codes: {}
+        };
+        
+        for (const lang of Object.keys(languagesConfig)) {
+            loadingPromises.push(
+                loadExampleCode(lang, example.id).then(code => {
+                    if (code !== null) {
+                        examplesData[example.id].codes[lang] = code;
+                    }
+                })
+            );
+        }
+    }
+    
+    await Promise.all(loadingPromises);
+}
+
 // 初始化
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initializeLanguageOrder();
     renderLanguageCheckboxes();
     setupLanguageFilters();
     
-    // 只有在 examples 变量存在时才渲染（独立版本）
-    // Jekyll 构建版本已经在 HTML 中包含了代码块
-    if (typeof examples !== 'undefined') {
-        renderExamples();
-    } else {
-        // Jekyll 版本：只需要更新可见性
-        updateVisibleLanguages();
-    }
+    // 显示加载提示
+    const container = document.getElementById('examples-container');
+    container.innerHTML = '<p style="text-align: center; padding: 2rem;">加载示例中...</p>';
+    
+    // 从文件加载示例
+    await loadAllExamples();
+    renderExamples();
 });
 
 // 渲染语言复选框
@@ -86,6 +95,9 @@ function renderLanguageCheckboxes() {
     container.innerHTML = '';
     
     languageOrder.forEach((lang, index) => {
+        const langConfig = languagesConfig[lang];
+        if (!langConfig) return;
+        
         const button = document.createElement('div');
         button.className = 'language-item';
         if (selectedLanguages.has(lang)) {
@@ -97,7 +109,7 @@ function renderLanguageCheckboxes() {
         
         const langName = document.createElement('span');
         langName.className = 'language-name';
-        langName.textContent = languageNames[lang];
+        langName.textContent = langConfig.name;
         
         button.appendChild(langName);
         
@@ -179,14 +191,7 @@ function handleDrop(e) {
         // 重新渲染
         renderLanguageCheckboxes();
         setupLanguageFilters();
-        
-        // 只有在 examples 变量存在时才重新渲染（独立版本）
-        if (typeof examples !== 'undefined') {
-            renderExamples();
-        } else {
-            // Jekyll 版本：只需要更新可见性
-            updateVisibleLanguages();
-        }
+        renderExamples();
     }
     
     return false;
@@ -242,9 +247,13 @@ function renderExamples() {
     const container = document.getElementById('examples-container');
     container.innerHTML = '';
     
-    examples.forEach(example => {
-        const section = createExampleSection(example);
-        container.appendChild(section);
+    // 按 examplesConfig 的顺序渲染
+    examplesConfig.forEach(config => {
+        const example = examplesData[config.id];
+        if (example && Object.keys(example.codes).length > 0) {
+            const section = createExampleSection(example);
+            container.appendChild(section);
+        }
     });
 }
 
@@ -281,6 +290,9 @@ function createExampleSection(example) {
 
 // 创建代码块
 function createCodeBlock(language, code) {
+    const langConfig = languagesConfig[language];
+    if (!langConfig) return document.createElement('div');
+    
     const block = document.createElement('div');
     block.className = 'code-block';
     block.dataset.language = language;
@@ -292,14 +304,13 @@ function createCodeBlock(language, code) {
     
     const label = document.createElement('div');
     label.className = 'language-label';
-    label.textContent = languageNames[language];
+    label.textContent = langConfig.name;
     
     const pre = document.createElement('pre');
     const codeElement = document.createElement('code');
     
     // 添加 Prism.js 的语言类
-    const prismLang = prismLanguages[language];
-    codeElement.className = `language-${prismLang}`;
+    codeElement.className = `language-${langConfig.prism}`;
     codeElement.textContent = code;
     
     pre.appendChild(codeElement);

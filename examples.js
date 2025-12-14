@@ -607,6 +607,165 @@ func (d Dog) Speak() {
         }
     },
     {
+        title: "元组",
+        description: "固定大小的不可变序列，可包含不同类型元素",
+        codes: {
+            cpp: `#include <tuple>
+
+// 创建元组
+std::tuple<int, std::string, double> person(25, "Alice", 1.68);
+
+// 访问元素
+int age = std::get<0>(person);
+std::string name = std::get<1>(person);
+
+// C++17 结构化绑定
+auto [a, n, h] = person;`,
+            cpp20: `#include <tuple>
+
+// 创建元组
+auto person = std::tuple{25, "Alice", 1.68};
+
+// C++20 结构化绑定
+auto [age, name, height] = person;
+
+// 使用 std::apply 解包
+std::apply([](auto... args) {
+    ((std::cout << args << " "), ...);
+}, person);`,
+            python: `# 创建元组
+person = (25, "Alice", 1.68)
+coords = 10, 20  # 括号可省略
+
+# 访问元素
+age = person[0]
+name = person[1]
+
+# 解包
+age, name, height = person
+
+# 命名元组
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, 20)`,
+            rust: `// 创建元组
+let person: (i32, &str, f64) = (25, "Alice", 1.68);
+
+// 访问元素
+let age = person.0;
+let name = person.1;
+
+// 解构
+let (a, n, h) = person;
+
+// 单元素元组
+let single = (42,);`,
+            java: `// Java 没有内置元组，使用 Record (Java 16+)
+record Person(int age, String name, double height) {}
+var person = new Person(25, "Alice", 1.68);
+
+// 访问
+int age = person.age();
+String name = person.name();
+
+// 或使用 Map.entry 作为二元组
+var pair = Map.entry("key", 100);`,
+            csharp: `// C# 值元组 (C# 7.0+)
+var person = (25, "Alice", 1.68);
+(int age, string name, double height) = person;
+
+// 命名元组
+var named = (Age: 25, Name: "Alice", Height: 1.68);
+Console.WriteLine(named.Name);
+
+// 元组方法返回
+(int min, int max) GetRange() => (0, 100);`,
+            javascript: `// JavaScript 没有原生元组，使用数组模拟
+const person = [25, "Alice", 1.68];
+
+// 解构赋值
+const [age, name, height] = person;
+
+// Object.freeze 创建不可变"元组"
+const tuple = Object.freeze([1, 2, 3]);`,
+            typescript: `// TypeScript 元组类型
+const person: [number, string, number] = [25, "Alice", 1.68];
+
+// 解构
+const [age, name, height] = person;
+
+// 命名元组 (TS 4.0+)
+type Person = [age: number, name: string, height: number];
+
+// 只读元组
+const point: readonly [number, number] = [10, 20];`,
+            lua: `-- Lua 使用 table 模拟元组
+local person = {25, "Alice", 1.68}
+
+-- 访问元素
+local age = person[1]
+local name = person[2]
+
+-- 多重赋值（类似解包）
+local a, b, c = 25, "Alice", 1.68
+
+-- 函数返回多值
+local function getPerson()
+    return 25, "Alice", 1.68
+end
+local age, name, height = getPerson()`,
+            ruby: `# Ruby 没有原生元组，使用数组或 Struct
+person = [25, "Alice", 1.68].freeze
+
+# 解构
+age, name, height = person
+
+# 使用 Struct 创建命名元组
+Person = Struct.new(:age, :name, :height)
+p = Person.new(25, "Alice", 1.68)
+puts p.name`,
+            swift: `// Swift 元组
+let person: (Int, String, Double) = (25, "Alice", 1.68)
+
+// 访问元素
+let age = person.0
+let name = person.1
+
+// 命名元组
+let named = (age: 25, name: "Alice", height: 1.68)
+print(named.name)
+
+// 解构
+let (a, n, h) = person`,
+            objectivec: `// Objective-C 没有原生元组支持
+// 通常使用 NSArray 或自定义类
+NSArray *person = @[@25, @"Alice", @1.68];
+int age = [person[0] intValue];
+NSString *name = person[1];
+
+// 或使用字典
+NSDictionary *tuple = @{
+    @"age": @25,
+    @"name": @"Alice",
+    @"height": @1.68
+};`,
+            go: `// Go 没有元组类型
+// 使用多返回值模拟
+func getPerson() (int, string, float64) {
+    return 25, "Alice", 1.68
+}
+
+age, name, height := getPerson()
+
+// 或使用结构体
+type Person struct {
+    Age    int
+    Name   string
+    Height float64
+}`
+        }
+    },
+    {
         title: "数组/列表",
         description: "数组和列表的创建与操作",
         codes: {
