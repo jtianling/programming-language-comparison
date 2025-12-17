@@ -6,6 +6,9 @@ url: "" # 站点 URL
 
 # 构建设置
 markdown: kramdown
+# 包含以下划线开头的目录（Jekyll 默认会忽略它们）
+include:
+  - _examples
 exclude:
   - README.md
   - Gemfile
