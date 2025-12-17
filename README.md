@@ -202,6 +202,10 @@ HTML 布局模板，定义网站的整体结构。
 
 MIT License
 
+## 🤖 Development Tools
+
+This project was developed with assistance from [Cline](https://github.com/cline/cline) + [Claude Sonnet 4.5](https://www.anthropic.com/claude).
+
 ## 🤝 贡献
 
 欢迎提交 Pull Request 来添加更多语言或示例！
