@@ -12,7 +12,8 @@ const languageNames = {
     ruby: 'Ruby',
     swift: 'Swift',
     objectivec: 'Objective-C',
-    go: 'Go'
+    go: 'Go',
+    zig: 'Zig'
 };
 
 // Prism.js 语言映射
@@ -29,7 +30,8 @@ const prismLanguages = {
     ruby: 'ruby',
     swift: 'swift',
     objectivec: 'objectivec',
-    go: 'go'
+    go: 'go',
+    zig: 'zig'
 };
 
 // 语言顺序数组（可拖拽排序）
@@ -47,7 +49,7 @@ function initializeLanguageOrder() {
         languageOrder = JSON.parse(savedOrder);
     } else {
         // 默认顺序
-        languageOrder = ['cpp', 'cpp20', 'python', 'rust', 'java', 'csharp', 'javascript', 'typescript', 'lua', 'ruby', 'swift', 'objectivec', 'go'];
+        languageOrder = ['cpp', 'cpp20', 'python', 'rust', 'java', 'csharp', 'javascript', 'typescript', 'lua', 'ruby', 'swift', 'objectivec', 'go', 'zig'];
     }
     
     if (savedSelected) {
@@ -84,8 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderLanguageCheckboxes() {
     const container = document.getElementById('language-checkboxes');
     container.innerHTML = '';
-    
+
     languageOrder.forEach((lang, index) => {
+        // 防御性编程：跳过未知语言
+        if (!languageNames[lang]) {
+            console.warn(`Unknown language: ${lang}`);
+            return;
+        }
+
         const button = document.createElement('div');
         button.className = 'language-item';
         if (selectedLanguages.has(lang)) {
@@ -94,13 +102,13 @@ function renderLanguageCheckboxes() {
         button.draggable = true;
         button.dataset.language = lang;
         button.dataset.index = index;
-        
+
         const langName = document.createElement('span');
         langName.className = 'language-name';
         langName.textContent = languageNames[lang];
-        
+
         button.appendChild(langName);
-        
+
         // 点击切换选中状态
         button.addEventListener('click', (e) => {
             const lang = button.dataset.language;
@@ -111,17 +119,17 @@ function renderLanguageCheckboxes() {
                 selectedLanguages.add(lang);
                 button.classList.add('selected');
             }
-            
+
             saveLanguagePreferences();
             updateVisibleLanguages();
         });
-        
+
         // 拖拽事件
         button.addEventListener('dragstart', handleDragStart);
         button.addEventListener('dragover', handleDragOver);
         button.addEventListener('drop', handleDrop);
         button.addEventListener('dragend', handleDragEnd);
-        
+
         container.appendChild(button);
     });
 }

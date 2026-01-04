@@ -5,7 +5,7 @@
   "scripts": {
     "build": "node build.js",
     "generate-examples": "node generate-examples.js",
-    "dev": "node build.js && open _site/index.html"
+    "dev": "node build.js && python3 -m http.server 8000 --directory _site"
   },
   "keywords": [
     "programming",

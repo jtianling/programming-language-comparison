@@ -70,6 +70,10 @@ languages:
     name: Go
     extension: go
     prism: go
+  zig:
+    name: Zig
+    extension: zig
+    prism: zig
 
 # 示例配置
 examples:
@@ -109,3 +113,6 @@ examples:
   - id: memory
     title: 内存管理
     description: 内存分配和管理
+  - id: tuples
+    title: 元组
+    description: 固定大小的不可变序列，可包含不同类型元素

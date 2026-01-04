@@ -16,21 +16,19 @@ const indexContent = indexTemplate.replace(/^---[\s\S]*?---\n/, '');
 // 读取所有示例代码
 config.examples.forEach(example => {
     const exampleId = example.id;
-    const exampleDir = path.join('_examples', exampleId);
-    
+
     example.codes = {};
-    
-    if (fs.existsSync(exampleDir)) {
-        Object.keys(config.languages).forEach(langKey => {
-            const langConfig = config.languages[langKey];
-            const extension = langConfig.extension;
-            const codeFile = path.join(exampleDir, `${langKey}.${extension}`);
-            
-            if (fs.existsSync(codeFile)) {
-                example.codes[langKey] = fs.readFileSync(codeFile, 'utf8');
-            }
-        });
-    }
+
+    Object.keys(config.languages).forEach(langKey => {
+        const langConfig = config.languages[langKey];
+        const extension = langConfig.extension;
+        // 新的目录结构：_examples/{language}/{example-id}.{extension}
+        const codeFile = path.join('_examples', langKey, `${exampleId}.${extension}`);
+
+        if (fs.existsSync(codeFile)) {
+            example.codes[langKey] = fs.readFileSync(codeFile, 'utf8');
+        }
+    });
 });
 
 // 生成 HTML 内容
@@ -101,6 +99,28 @@ if (!fs.existsSync('_site/assets')) {
     fs.mkdirSync('_site/assets');
 }
 fs.copyFileSync('assets/app.js', '_site/assets/app.js');
+
+// 复制 _examples 目录到 _site（用于调试模式）
+function copyDir(src, dest) {
+    if (!fs.existsSync(dest)) {
+        fs.mkdirSync(dest, { recursive: true });
+    }
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (let entry of entries) {
+        const srcPath = path.join(src, entry.name);
+        const destPath = path.join(dest, entry.name);
+        if (entry.isDirectory()) {
+            copyDir(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    }
+}
+copyDir('_examples', '_site/_examples');
+
+// 复制 examples-config.js 和 app.js 到 _site（用于调试模式）
+fs.copyFileSync('examples-config.js', '_site/examples-config.js');
+fs.copyFileSync('app.js', '_site/app.js');
 
 console.log('✅ 网站构建成功！');
 console.log('📁 生成的文件位于 _site/ 目录');
