@@ -11,16 +11,24 @@ let examplesData = {};
 function initializeLanguageOrder() {
     const savedOrder = localStorage.getItem('languageOrder');
     const savedSelected = localStorage.getItem('selectedLanguages');
-    
+
+    const allLanguages = Object.keys(languagesConfig);
+
     if (savedOrder) {
-        languageOrder = JSON.parse(savedOrder);
+        const savedLangs = JSON.parse(savedOrder);
+        // 合并保存的顺序和新添加的语言
+        const newLanguages = allLanguages.filter(lang => !savedLangs.includes(lang));
+        languageOrder = [...savedLangs, ...newLanguages];
     } else {
         // 默认顺序
-        languageOrder = Object.keys(languagesConfig);
+        languageOrder = allLanguages;
     }
-    
+
     if (savedSelected) {
-        selectedLanguages = new Set(JSON.parse(savedSelected));
+        const savedSelectedSet = new Set(JSON.parse(savedSelected));
+        // 将新添加的语言也默认选中
+        const newLanguages = allLanguages.filter(lang => !Array.from(savedSelectedSet).includes(lang));
+        selectedLanguages = new Set([...savedSelectedSet, ...newLanguages]);
     } else {
         // 默认全部选中
         selectedLanguages = new Set(languageOrder);
