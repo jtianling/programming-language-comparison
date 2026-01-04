@@ -14,11 +14,17 @@ function initializeLanguageOrder() {
 
     const allLanguages = Object.keys(languagesConfig);
 
+    console.log('[语言初始化] 配置中的所有语言:', allLanguages);
+
     if (savedOrder) {
         const savedLangs = JSON.parse(savedOrder);
         // 合并保存的顺序和新添加的语言
         const newLanguages = allLanguages.filter(lang => !savedLangs.includes(lang));
         languageOrder = [...savedLangs, ...newLanguages];
+
+        if (newLanguages.length > 0) {
+            console.log('[语言初始化] 检测到新添加的语言:', newLanguages);
+        }
     } else {
         // 默认顺序
         languageOrder = allLanguages;
@@ -29,10 +35,17 @@ function initializeLanguageOrder() {
         // 将新添加的语言也默认选中
         const newLanguages = allLanguages.filter(lang => !Array.from(savedSelectedSet).includes(lang));
         selectedLanguages = new Set([...savedSelectedSet, ...newLanguages]);
+
+        if (newLanguages.length > 0) {
+            console.log('[语言初始化] 新语言已自动选中:', newLanguages);
+        }
     } else {
         // 默认全部选中
         selectedLanguages = new Set(languageOrder);
     }
+
+    console.log('[语言初始化] 最终语言顺序:', languageOrder);
+    console.log('[语言初始化] 选中的语言:', Array.from(selectedLanguages));
 }
 
 // 保存语言顺序和选中状态到 localStorage
@@ -60,14 +73,16 @@ async function loadExampleCode(lang, exampleId) {
 
 // 加载所有示例数据
 async function loadAllExamples() {
+    console.log('[示例加载] 开始加载示例代码...');
+
     const loadingPromises = [];
-    
+
     for (const example of examplesConfig) {
         examplesData[example.id] = {
             ...example,
             codes: {}
         };
-        
+
         for (const lang of Object.keys(languagesConfig)) {
             loadingPromises.push(
                 loadExampleCode(lang, example.id).then(code => {
@@ -78,8 +93,21 @@ async function loadAllExamples() {
             );
         }
     }
-    
+
     await Promise.all(loadingPromises);
+
+    // 统计加载结果
+    const stats = {};
+    for (const lang of Object.keys(languagesConfig)) {
+        stats[lang] = 0;
+        for (const example of examplesConfig) {
+            if (examplesData[example.id].codes[lang]) {
+                stats[lang]++;
+            }
+        }
+    }
+
+    console.log('[示例加载] 加载完成,各语言示例数量:', stats);
 }
 
 // 初始化
@@ -101,10 +129,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 function renderLanguageCheckboxes() {
     const container = document.getElementById('language-checkboxes');
     container.innerHTML = '';
-    
+
+    console.log('[按钮渲染] 开始渲染语言按钮,共', languageOrder.length, '个语言');
+
     languageOrder.forEach((lang, index) => {
         const langConfig = languagesConfig[lang];
-        if (!langConfig) return;
+        if (!langConfig) {
+            console.warn(`[按钮渲染] 警告: 语言 "${lang}" 没有在 languagesConfig 中找到配置,已跳过`);
+            return;
+        }
         
         const button = document.createElement('div');
         button.className = 'language-item';
@@ -144,6 +177,8 @@ function renderLanguageCheckboxes() {
         
         container.appendChild(button);
     });
+
+    console.log('[按钮渲染] 渲染完成,共生成', container.children.length, '个按钮');
 }
 
 // 拖拽相关变量
