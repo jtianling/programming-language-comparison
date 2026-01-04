@@ -84,7 +84,8 @@ const languagesConfig = {
     swift: { name: 'Swift', ext: 'swift', prism: 'swift' },
     objectivec: { name: 'Objective-C', ext: 'm', prism: 'objectivec' },
     go: { name: 'Go', ext: 'go', prism: 'go' },
-    zig: { name: 'Zig', ext: 'zig', prism: 'zig' }
+    zig: { name: 'Zig', ext: 'zig', prism: 'zig' },
+    commonlisp: { name: 'Common Lisp', ext: 'lisp', prism: 'lisp' }
 };
 
 // Node.js 环境下导出
