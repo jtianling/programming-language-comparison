@@ -81,7 +81,8 @@ let finalHtml = layoutTemplate
     .replace(/\{\{ site\.description \}\}/g, config.description)
     .replace('{{ content }}', htmlContent)
     .replace(/\{\{ '\/styles\.css' \| relative_url \}\}/g, 'styles.css')
-    .replace(/\{\{ '\/assets\/app\.js' \| relative_url \}\}/g, 'assets/app.js');
+    .replace(/\{\{ '\/assets\/app\.js' \| relative_url \}\}/g, 'assets/app.js')
+    .replace(/\{\{ '\/assets\/vibe-companion\.js' \| relative_url \}\}/g, 'assets/vibe-companion.js');
 
 // 创建 _site 目录
 if (!fs.existsSync('_site')) {
@@ -99,6 +100,36 @@ if (!fs.existsSync('_site/assets')) {
     fs.mkdirSync('_site/assets');
 }
 fs.copyFileSync('assets/app.js', '_site/assets/app.js');
+fs.copyFileSync('vibe-companion.js', '_site/assets/vibe-companion.js');
+
+// 复制 node_modules/vibe-kanban-web-companion 到 _site
+const vibeKanbanSrc = 'node_modules/vibe-kanban-web-companion';
+const vibeKanbanDest = '_site/node_modules/vibe-kanban-web-companion';
+if (!fs.existsSync('_site/node_modules')) {
+    fs.mkdirSync('_site/node_modules');
+}
+if (!fs.existsSync(vibeKanbanDest)) {
+    fs.mkdirSync(vibeKanbanDest, { recursive: true });
+}
+
+// 递归复制目录
+function copyRecursive(src, dest) {
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+        const srcPath = path.join(src, entry.name);
+        const destPath = path.join(dest, entry.name);
+        if (entry.isDirectory()) {
+            if (!fs.existsSync(destPath)) {
+                fs.mkdirSync(destPath, { recursive: true });
+            }
+            copyRecursive(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    }
+}
+
+copyRecursive(vibeKanbanSrc, vibeKanbanDest);
 
 // 复制 _examples 目录到 _site（用于调试模式）
 function copyDir(src, dest) {
